@@ -229,3 +229,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+.vs/zork/v15/Browse.VC.opendb

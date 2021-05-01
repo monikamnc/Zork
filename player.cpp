@@ -248,15 +248,25 @@ bool Player::UnEquip(const vector<string>& args)
 bool Player::Examine(const vector<string>& args) const
 {
 	Creature *target = (Creature*)parent->Find(args[1], CREATURE);
-
-	if(target == NULL)
+	if (target == NULL)
 	{
-		cout << "\n" << args[1] << " is not here.\n";
-		return false;
+		Item *target = (Item*)parent->Find(args[1], ITEM);
+
+		if (target == NULL)
+		{
+			cout << "\n" << args[1] << " is not here.\n";
+			return false;
+		}
+
+		target->Look();
+
+	}
+	else
+	{
+		target->Inventory();
+		target->Stats();
 	}
 
-	target->Inventory();
-	target->Stats();
 
 	return true;
 }
