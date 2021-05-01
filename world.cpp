@@ -14,20 +14,33 @@ World::World()
 	tick_timer = clock();
 
 	// Rooms ----
+	Room* seashore = new Room("Seashore", "Lovely sun rises and touch your skin.");
+	Room* fisherH = new Room("Fisherman's House", "Oldie house that smells musty and salt.");
+	Room* river = new Room("River", "The sound of the running water relaxes you.");
+
 	Room* forest = new Room("Forest", "You are surrounded by tall trees. It feels like a huge forest someone could get lost easily.");
 	Room* house = new Room("House", "You are inside a beautiful but small white house.");
 	Room* basement = new Room("Basement", "The basement features old furniture and dim light.");
+
+
 
 	Exit* ex1 = new Exit("west", "east", "Little path", house, forest);
 	Exit* ex2 = new Exit("down", "up", "Stairs", house, basement);
 	ex2->locked = true;
 
-	entities.push_back(forest);
+	Exit* seashoreToFisherH = new Exit("north", "south", "Promenade", seashore, fisherH);
+	Exit* fisherHToRiver = new Exit("west", "east", "Grass Path", fisherH, river);
+
+	entities.push_back(seashore);
+	entities.push_back(fisherH);
+	entities.push_back(river);
+
+	//entities.push_back(forest);
 	entities.push_back(house);
 	entities.push_back(basement);
 
-	entities.push_back(ex1);
-	entities.push_back(ex2);
+	entities.push_back(seashoreToFisherH);
+	entities.push_back(fisherHToRiver);
 
 	// Creatures ----
 	Creature* butler = new Creature("Butler", "It's James, the house Butler.", house);
@@ -57,7 +70,7 @@ World::World()
 	entities.push_back(shield);
 
 	// Player ----
-	player = new Player("Hero", "You are an awesome adventurer!", forest);
+	player = new Player("Hero", "You are an awesome adventurer!", seashore);
 	player->hit_points = 25;
 	entities.push_back(player);
 }
