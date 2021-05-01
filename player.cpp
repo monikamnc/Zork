@@ -274,6 +274,12 @@ bool Player::Examine(const vector<string>& args) const
 // ----------------------------------------------------
 bool Player::Attack(const vector<string>& args)
 {
+	if (this->weapon == NULL)
+	{
+		cout << "\n" << " You can't attack without a weapon equipped.\n";
+		return false;
+	}
+
 	Creature *target = (Creature*)parent->Find(args[1], CREATURE);
 
 	if(target == NULL)
