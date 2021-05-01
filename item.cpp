@@ -5,11 +5,12 @@
 #include "item.h"
 
 // ----------------------------------------------------
-Item::Item(const char* title, const char* description, Entity* parent, ItemType item_type) :
-Entity(title, description, parent), item_type(item_type)
+Item::Item(const char* title, const char* description, Entity* parent, bool isClosed, ItemType item_type) :
+Entity(title, description, parent), usable(NULL), item_type(item_type)
 {
 	type = ITEM;
 	min_value = max_value = 0;
+	closed = isClosed;
 }
 
 // ----------------------------------------------------
@@ -28,8 +29,17 @@ void Item::Look() const
 	if(stuff.size() > 0)
 	{
 		cout << "It contains: " << "\n";
-		for(list<Entity*>::const_iterator it = stuff.begin(); it != stuff.cend(); ++it)
-			cout << (*it)->name << "\n";
+		for (list<Entity*>::const_iterator it = stuff.begin(); it != stuff.cend(); ++it)
+		{
+			if (this->closed)
+			{
+				cout << "There's something but you can't look in it.\n";
+			}
+			else
+			{
+				cout << (*it)->name << "\n";
+			}
+		}
 	}
 }
 

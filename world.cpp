@@ -19,7 +19,7 @@ World::World()
 	Room* river = new Room("River", "The sound of the running water relaxes you.");
 	Room* sea = new Room("Sea", "It seems someone is watching you under the water.");
 	Room* boat = new Room("Boat - Main Deck", "It seems it was an abandoned boat.");
-	Room* gunDeck = new Room("Boat - Gun Deck", "It seems someone is watching you under the water.");
+	Room* gunDeck = new Room("Boat - Gun Deck", "Plenty of guns and cansons are surrounded.");
 	Room* orlopDeck = new Room("Boat - Orlop Deck", "It seems someone is watching you under the water.");
 
 
@@ -70,31 +70,32 @@ World::World()
 	entities.push_back(trees);
 
 	// Items -----
-	Item* mailbox = new Item("Mailbox", "Looks like it might contain something.", house);
-	Item* key = new Item("Key", "Old iron key.", mailbox);
-	ex2->key = key;
+	Item* mailbox = new Item("Mailbox", "Looks like it might contain something.", house, false);
+	//Item* key = new Item("Key", "Old iron key.", mailbox, false);
+	//ex2->key = key;
 
-	Item* ladder = new Item("Ladder", "Now you can reach new heighs.", trees);
+	Item* box = new Item("Box", "Can contain something useful. It has a tiny hole...", fisherH, true);
+	Item* ladder = new Item("Ladder", "Now you can reach new heighs.", trees, false);
+	Item* tiny = new Item("Key", "Tiny key, may enter small holes.", fisherman, false);
+	box->usable = tiny;
 	seashoreToBoat->key = ladder;
 
-	Item* sword = new Item("Sword", "A simple old and rusty sword.", forest, WEAPON);
-	sword->min_value = 2;
-	sword->max_value = 6;
 
-	Item* axe = new Item("Axe", "A simple axe, looks sharp.", fisherH, WEAPON);
+
+	Item* axe = new Item("Axe", "A simple axe, looks sharp.", box, false, WEAPON);
 	axe->min_value = 1;
 	axe->max_value = 3;
 
-	Item* sword2(sword);
-	sword2->parent = butler;
+	//Item* sword2(sword);
+	//sword2->parent = butler;
 
-	Item* shield = new Item("Shield", "An old wooden shield.", butler, ARMOUR);
+	Item* shield = new Item("Shield", "An old wooden shield.", butler, false, ARMOUR);
 	shield->min_value = 1;
 	shield->max_value = 3;
 	butler->AutoEquip();
 
 	entities.push_back(mailbox);
-	entities.push_back(sword);
+
 	entities.push_back(shield);
 
 	entities.push_back(ladder);
@@ -104,7 +105,14 @@ World::World()
 	// Player ----
 	player = new Player("Hero", "You are an awesome adventurer!", seashore);
 	player->hit_points = 25;
+
 	entities.push_back(player);
+
+	Item* sword = new Item("Sword", "A simple old and rusty sword.", player, false, WEAPON);
+	sword->min_value = 2;
+	sword->max_value = 6;
+	entities.push_back(sword);	
+	player->AutoEquip();
 }
 
 // ----------------------------------------------------
@@ -261,6 +269,10 @@ bool World::ParseCommand(vector<string>& args)
 			else if(Same(args[0], "drop") || Same(args[0], "put"))
 			{
 				player->Drop(args);
+			}
+			else if(Same(args[0], "use") || Same(args[0], "open"))
+			{
+				player->Use(args);
 			}
 			else
 				ret = false;

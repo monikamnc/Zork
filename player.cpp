@@ -411,3 +411,44 @@ bool Player::UnLock(const vector<string>& args)
 
 	return true;
 }
+
+// ----------------------------------------------------
+bool Player::Use(const vector<string>& args)
+{
+	if (!IsAlive())
+		return false;
+
+	Item* item2 = (Item*)Find(args[3], ITEM);
+
+	if (item2 == NULL)
+	{
+		cout << "\n '" << args[3] << "' not found in your inventory.\n";
+		return false;
+	}
+
+	if (item2->closed == false)
+	{
+		cout << "\nThat object is not closed.\n";
+		return false;
+	}
+
+	Item* item1 = (Item*)Find(args[1], ITEM);
+
+	if (item1 == NULL)
+	{
+		cout << "\n '" << args[1] << "' not found in your inventory.\n";
+		return false;
+	}
+
+	if (item2->usable != item1)
+	{
+		cout << "\nObject '" << item1->name << "' is not usable for " << item2->name << ".\n";
+		return false;
+	}
+
+	cout << "\nYou open " << item2->name << "...\n";
+
+	item2->closed = false;
+
+	return true;
+}
