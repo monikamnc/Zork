@@ -77,6 +77,7 @@ World::World()
 	Item* box = new Item("Box", "Can contain something useful. It has a tiny hole...", fisherH, true);
 	Item* ladder = new Item("Ladder", "Now you can reach new heighs.", trees, false);
 	Item* tiny = new Item("Key", "Tiny key, may enter small holes.", fisherman, false);
+	Item* potion = new Item("Potion", "Crystal glass full of a strange liquid.", skeleton, false);
 	box->usable = tiny;
 	seashoreToBoat->key = ladder;
 
@@ -85,6 +86,11 @@ World::World()
 	Item* axe = new Item("Axe", "A simple axe, looks sharp.", box, false, WEAPON);
 	axe->min_value = 1;
 	axe->max_value = 3;
+
+	Item* rod = new Item("Rod", "A fishing rod, looks worn out.", fisherman, false, WEAPON);
+	rod->min_value = 1;
+	rod->max_value = 3;
+	fisherman->AutoEquip();
 
 	//Item* sword2(sword);
 	//sword2->parent = butler;
@@ -100,6 +106,7 @@ World::World()
 
 	entities.push_back(ladder);
 	entities.push_back(axe);
+	entities.push_back(rod);
 	
 
 	// Player ----
@@ -109,8 +116,8 @@ World::World()
 	entities.push_back(player);
 
 	Item* sword = new Item("Sword", "A simple old and rusty sword.", player, false, WEAPON);
-	sword->min_value = 2;
-	sword->max_value = 6;
+	sword->min_value = 0;
+	sword->max_value = 1;
 	entities.push_back(sword);	
 	player->AutoEquip();
 }

@@ -64,6 +64,7 @@ int main()
 			player_input = "";
 			cout << "> ";
 		}
+		
 	}
 
 	cout << "\nThanks for playing, Bye!\n";
