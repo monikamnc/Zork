@@ -23,6 +23,7 @@ public :
 	bool ParseCommand(vector<string>& args);
 	void GameLoop();
 	bool isDead();
+	bool youWin;
 
 private:
 

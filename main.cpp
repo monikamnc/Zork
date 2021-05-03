@@ -20,8 +20,9 @@ int main()
 	vector<string> args;
 	args.reserve(10);
 
-	cout << WHITE_ "Welcome to MyZork!\n" _WHITE;
-	cout << "----------------\n";
+	cout << WHITE_ "Welcome to MoniZork!\n" _WHITE;
+	cout << "You have to find and drink the eternal life potion to escape from this universe.\n";
+	cout << "--------------------------------------------------------------------------------\n";
 
 	World my_world;
 
@@ -58,17 +59,23 @@ int main()
 		if(my_world.Tick(args) == false)
 			cout << "\nSorry, I do not understand your command.\n";
 
+		if (my_world.isDead()) {
+			break;
+		}
+		if (my_world.youWin)
+		{
+			break;
+		}
+
 		if(args.size() > 0)
 		{
 			args.clear();
 			player_input = "";
 			cout << "> ";
 		}
-		if (my_world.isDead()) {
-			break;
-		}
+
 	}
 
-	cout << "\nThanks for playing, Bye!\n";
+	cout << "\nThanks for playing, See ya!\n";
 	return 0;
 }

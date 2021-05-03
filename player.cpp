@@ -452,3 +452,29 @@ bool Player::Use(const vector<string>& args)
 
 	return true;
 }
+
+// ----------------------------------------------------
+bool Player::Drink(const vector<string>& args)
+{
+	if (!IsAlive())
+		return false;
+
+	Item* item = (Item*)Find(args[1], ITEM);
+
+	if (item == NULL)
+	{
+		cout << "\n '" << args[1] << "' not found in your inventory.\n";
+		return false;
+	}
+
+	if (item->name != "Potion")
+	{
+		cout << "\nYou can't drink '" << item->name << "'.\n";
+		return false;
+	}
+
+	cout << "\nYou drink " << item->name << "...\n";
+	cout << "Congratulations!! You win!!\n";
+
+	return true;
+}
