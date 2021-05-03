@@ -23,16 +23,6 @@ World::World()
 	Room* orlopDeck = new Room("Boat - Orlop Deck", "It seems someone is watching you under the water.");
 
 
-	Room* forest = new Room("Forest", "You are surrounded by tall trees. It feels like a huge forest someone could get lost easily.");
-	Room* house = new Room("House", "You are inside a beautiful but small white house.");
-	Room* basement = new Room("Basement", "The basement features old furniture and dim light.");
-
-
-
-	Exit* ex1 = new Exit("west", "east", "Little path", house, forest);
-	Exit* ex2 = new Exit("down", "up", "Stairs", house, basement);
-	ex2->locked = true;
-
 	Exit* seashoreToFisherH = new Exit("north", "south", "Promenade", seashore, fisherH);
 	Exit* fisherHToRiver = new Exit("west", "east", "Grass Path", fisherH, river);
 	Exit* seashoreToSea = new Exit("south", "north", "Let's Swim", seashore, sea);
@@ -47,40 +37,29 @@ World::World()
 	entities.push_back(fisherH);
 	entities.push_back(river);
 
-	//entities.push_back(forest);
-	entities.push_back(house);
-	entities.push_back(basement);
 
 	entities.push_back(seashoreToFisherH);
 	entities.push_back(fisherHToRiver);
 	entities.push_back(seashoreToSea);
 
 	// Creatures ----
-	Creature* butler = new Creature("Butler", "It's James, the house Butler.", house);
 	Creature* fisherman = new Creature("Fisherman", "It's James, the house Butler.", river);
 	Creature* trees = new Creature("Trees", "It seems that are alive, probably.", river);
 	Creature* skeleton = new Creature("Skeleton", "Doesn't has a good looking.", orlopDeck);
 	fisherman->hit_points = 50;
 	trees->hit_points = 10;
 	skeleton->hit_points = 30;
-	butler->hit_points = 10;
 
-	entities.push_back(butler);
 	entities.push_back(fisherman);
 	entities.push_back(trees);
 
 	// Items -----
-	Item* mailbox = new Item("Mailbox", "Looks like it might contain something.", house, false);
-	//Item* key = new Item("Key", "Old iron key.", mailbox, false);
-	//ex2->key = key;
-
 	Item* box = new Item("Box", "Can contain something useful. It has a tiny hole...", fisherH, true);
 	Item* ladder = new Item("Ladder", "Now you can reach new heighs.", trees, false);
 	Item* tiny = new Item("Key", "Tiny key, may enter small holes.", fisherman, false);
 	Item* potion = new Item("Potion", "Crystal glass full of a strange liquid.", skeleton, false);
 	box->usable = tiny;
 	seashoreToBoat->key = ladder;
-
 
 
 	Item* axe = new Item("Axe", "A simple axe, looks sharp.", box, false, WEAPON);
@@ -95,14 +74,6 @@ World::World()
 	//Item* sword2(sword);
 	//sword2->parent = butler;
 
-	Item* shield = new Item("Shield", "An old wooden shield.", butler, false, ARMOUR);
-	shield->min_value = 1;
-	shield->max_value = 3;
-	butler->AutoEquip();
-
-	entities.push_back(mailbox);
-
-	entities.push_back(shield);
 
 	entities.push_back(ladder);
 	entities.push_back(axe);
@@ -115,11 +86,6 @@ World::World()
 
 	entities.push_back(player);
 
-	Item* sword = new Item("Sword", "A simple old and rusty sword.", player, false, WEAPON);
-	sword->min_value = 0;
-	sword->max_value = 1;
-	entities.push_back(sword);	
-	player->AutoEquip();
 }
 
 // ----------------------------------------------------
