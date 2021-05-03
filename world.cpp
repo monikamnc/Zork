@@ -159,6 +159,16 @@ void World::GameLoop()
 }
 
 // ----------------------------------------------------
+bool World::isDead()
+{
+	if (player->hit_points <= 0) 
+	{
+		return true;
+	}
+	return false;
+}
+
+// ----------------------------------------------------
 bool World::ParseCommand(vector<string>& args)
 {
 	bool ret = true;

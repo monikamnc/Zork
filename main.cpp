@@ -64,7 +64,9 @@ int main()
 			player_input = "";
 			cout << "> ";
 		}
-		
+		if (my_world.isDead()) {
+			break;
+		}
 	}
 
 	cout << "\nThanks for playing, Bye!\n";
