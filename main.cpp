@@ -9,9 +9,6 @@ using namespace std;
 
 #define BACKSPACE "\033[D\033[K"
 
-#define WHITE_ "\033[1;36m"
-#define _WHITE "\033[0m"
-
 // -------------------------------------------------
 int main()
 {
@@ -20,7 +17,7 @@ int main()
 	vector<string> args;
 	args.reserve(10);
 
-	cout << WHITE_ "Welcome to MoniZork!\n" _WHITE;
+	cout << "Welcome to MoniZork!\n";
 	cout << "You have to find and drink the eternal life potion to escape from this universe.\n";
 	cout << "--------------------------------------------------------------------------------\n";
 
@@ -77,5 +74,6 @@ int main()
 	}
 
 	cout << "\nThanks for playing, See ya!\n";
+	system("pause");
 	return 0;
 }

@@ -18,21 +18,21 @@ World::World()
 	Room* seashore = new Room("Seashore", "Lovely sun rises and touch your skin.");
 	Room* fisherH = new Room("Fisherman's House", "Oldie house that smells musty and salt.");
 	Room* river = new Room("River", "The sound of the running water relaxes you.");
-	Room* sea = new Room("Sea", "It seems someone is watching you under the water.");
-	Room* boat = new Room("Boat - Main Deck", "It seems it was an abandoned boat.");
-	Room* gunDeck = new Room("Boat - Gun Deck", "Plenty of guns and cansons are surrounded.");
-	Room* orlopDeck = new Room("Boat - Orlop Deck", "It seems someone is watching you under the water.");
+	//Room* sea = new Room("Sea", "It seems someone is watching you under the water.");
+	Room* ship = new Room("Ship - Main Deck", "It seems it was an abandoned ship.");
+	Room* gunDeck = new Room("Ship - Gun Deck", "Plenty of guns and cansons are surrounded.");
+	Room* orlopDeck = new Room("Ship - Orlop Deck", "It seems someone is watching you under the water.");
 
 
 	Exit* seashoreToFisherH = new Exit("north", "south", "Promenade", seashore, fisherH);
 	Exit* fisherHToRiver = new Exit("west", "east", "Grass Path", fisherH, river);
-	Exit* seashoreToSea = new Exit("south", "north", "Let's Swim", seashore, sea);
-	Exit* seashoreToBoat = new Exit("east", "west", "Wellcome on Board", seashore, boat);
-	Exit* boatToGun = new Exit("down", "up", "Wellcome on Board", boat, gunDeck);
+	//Exit* seashoreToSea = new Exit("south", "north", "Let's Swim", seashore, sea);
+	Exit* seashoreToShip = new Exit("east", "west", "Wellcome on Board", seashore, ship);
+	Exit* shipToGun = new Exit("down", "up", "Wellcome on Board", ship, gunDeck);
 	Exit* gunToOrlop = new Exit("down", "up", "Wellcome on Board", gunDeck, orlopDeck);
 
-	seashoreToSea->locked = true;
-	seashoreToBoat->locked = true;
+	//seashoreToSea->locked = true;
+	seashoreToShip->locked = true;
 
 	entities.push_back(seashore);
 	entities.push_back(fisherH);
@@ -41,26 +41,28 @@ World::World()
 
 	entities.push_back(seashoreToFisherH);
 	entities.push_back(fisherHToRiver);
-	entities.push_back(seashoreToSea);
+	//entities.push_back(seashoreToSea);
 
 	// Creatures ----
-	Creature* fisherman = new Creature("Fisherman", "It's James, the house Butler.", river);
+	Creature* fisherman = new Creature("Fisherman", "It's Tim, the alcoholic fisherman.", river);
 	Creature* trees = new Creature("Trees", "It seems that are alive, probably.", river);
-	Creature* skeleton = new Creature("Skeleton", "Doesn't has a good looking.", orlopDeck);
+	Creature* skeleton = new Creature("Skeleton", "Doesn't look good.", orlopDeck);
 	fisherman->hit_points = 50;
 	trees->hit_points = 10;
 	skeleton->hit_points = 30;
 
 	entities.push_back(fisherman);
 	entities.push_back(trees);
+	entities.push_back(skeleton);
 
 	// Items -----
 	Item* box = new Item("Box", "Can contain something useful. It has a tiny hole...", fisherH, true);
 	Item* ladder = new Item("Ladder", "Now you can reach new heighs.", trees, false);
 	Item* tiny = new Item("Key", "Tiny key, may enter small holes.", fisherman, false);
-	Item* potion = new Item("Potion", "Crystal glass full of a strange liquid.", seashore, false);
+	Item* potion = new Item("Potion", "Crystal glass full of a strange liquid.", skeleton, false);
+	Item* rum = new Item("Rum", "A glass bottle. You can read in a ugly sticker the word 'Rum'.", seashore, false);
 	box->usable = tiny;
-	seashoreToBoat->key = ladder;
+	seashoreToShip->key = ladder;
 	
 	Item* axe = new Item("Axe", "A simple axe, looks sharp.", box, false, WEAPON);
 	axe->min_value = 1;
@@ -71,9 +73,25 @@ World::World()
 	rod->max_value = 3;
 	fisherman->AutoEquip();
 
+	Item* bone = new Item("Bone", "A bone from the leg of the skeleton.", skeleton, false, WEAPON);
+	bone->min_value = 4;
+	bone->max_value = 7;
+	skeleton->AutoEquip();
+
+	Item* gun = new Item("Gun", "A rusty gun that still has some ammunition.", gunDeck, false, WEAPON);
+	gun->min_value = 4;
+	gun->max_value = 7;
+	
+	Item* shield = new Item("Shield", "An old wooden shield.", ship, false, ARMOUR);
+	shield->min_value = 5;
+	shield->max_value = 7;
+
 	entities.push_back(ladder);
 	entities.push_back(axe);
 	entities.push_back(rod);
+	entities.push_back(bone);
+	entities.push_back(gun);
+	entities.push_back(shield);
 	
 
 	// Player ----
@@ -256,6 +274,10 @@ bool World::ParseCommand(vector<string>& args)
 			else if(Same(args[0], "use") || Same(args[0], "open"))
 			{
 				player->Use(args);
+			}
+			else if (Same(args[0], "give"))
+			{
+				player->Give(args);
 			}
 			else
 				ret = false;

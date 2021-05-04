@@ -25,6 +25,7 @@ public:
 	bool UnLock(const vector<string>& args);
 	bool Use(const vector<string>& args);
 	bool Drink(const vector<string>& args);
+	bool Give(const vector<string>& args);
 
 public :
 

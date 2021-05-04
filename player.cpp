@@ -450,9 +450,57 @@ bool Player::Use(const vector<string>& args)
 
 	item2->closed = false;
 
+	for (list<Entity*>::const_iterator it = this->container.begin(); it != this->container.cend(); ++it)
+	{
+		if (Same((*it)->name, args[3]))
+		{
+			(*it)->Look();
+			break;
+		}
+	}
+
 	return true;
 }
 
+// ----------------------------------------------------
+bool Player::Give(const vector<string>& args)
+{
+	if (!IsAlive())
+		return false;
+
+	Item* item = (Item*)Find(args[1], ITEM);
+
+	if (item == NULL)
+	{
+		cout << "\n '" << args[1] << "' not found in your inventory.\n";
+		return false;
+	}
+
+	Creature *target = (Creature*)parent->Find(args[3], CREATURE);
+
+	if (target == NULL)
+	{
+		cout << "\n '" << args[3] << "' is not in this room.\n";
+		return false;
+	}
+
+	if (item->name == "Rum" && target->name == "Fisherman")
+	{
+		item->ChangeParentTo(NULL);
+		target->hit_points = 0;
+		cout << "\nYou give '" << item->name << "' to " << target->name << ".\n";
+		cout << "The '" << target->name << "' starts to drink " << item->name << "...\n";
+		cout << "The '" << target->name << "' chokes and dies.\n";
+	}
+	else
+	{
+		cout << "\nYou can't give '" << args[1] << "' to " << target->name << ".\n";
+		return false;
+	}
+
+
+	return true;
+}
 // ----------------------------------------------------
 bool Player::Drink(const vector<string>& args)
 {
@@ -467,14 +515,22 @@ bool Player::Drink(const vector<string>& args)
 		return false;
 	}
 
-	if (item->name != "Potion")
+	if (item->name != "Potion" && item->name != "Rum")
 	{
 		cout << "\nYou can't drink '" << item->name << "'.\n";
 		return false;
 	}
 
 	cout << "\nYou drink " << item->name << "...\n";
-	cout << "Congratulations!! You win!!\n";
+
+	if (item->name == "Potion")
+	{
+		cout << "Congratulations!! You win!!\n";
+	}
+	else if (item->name == "Rum")
+	{
+		cout << "Oh no, you got drunk!! That wasn't the eternal life potion!! BAD ENDING\n";
+	}
 
 	return true;
 }
